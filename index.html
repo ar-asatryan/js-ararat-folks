@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JavaScript Event Loop Simulator</title>
+</head>
+<body>
+<header>
+  <div>
+    <h1>JavaScript Event Loop Simulator</h1>
+    <div class="sub">Visualize Call Stack &middot; Web APIs &middot; Microtask Queue &middot; Macrotask Queue</div>
+  </div>
+  <div class="legend">
+    <span class="l-stack">Call Stack</span>
+    <span class="l-webapi">Web APIs</span>
+    <span class="l-micro">Microtasks</span>
+    <span class="l-macro">Macrotasks</span>
+  </div>
+</header>
+
+<main>
+  <section class="card">
+    <h2>Code</h2>
+    <textarea id="code" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"
+      placeholder="// Edit me — write JS using console.log, setTimeout, Promise, queueMicrotask, requestAnimationFrame…"
+      aria-label="Editable JavaScript code"></textarea>
+    <div class="controls">
+      <button id="runBtn">Run</button>
+      <button id="resetBtn" class="secondary">Reset</button>
+      <button id="clearBtn" class="secondary" title="Clear the editor">Clear</button>
+      <label>
+        Example:
+        <select id="examples">
+          <option value="basic">Basic: log + setTimeout + Promise</option>
+          <option value="microFirst">Microtasks before macrotasks</option>
+          <option value="nested">Nested promises &amp; timeouts</option>
+          <option value="zero">setTimeout(0) vs Promise.resolve</option>
+          <option value="raf">requestAnimationFrame</option>
+          <option value="chain">Promise chain inside setTimeout</option>
+        </select>
+      </label>
+      <label>
+        Speed:
+        <input type="range" id="speed" min="100" max="1500" value="600" />
+      </label>
+    </div>
+    <div class="tip">
+      Supported: <code class="kbd">console.log</code>, <code class="kbd">setTimeout</code>, <code class="kbd">setInterval</code> (one-shot), <code class="kbd">clearTimeout</code>, <code class="kbd">queueMicrotask</code>, <code class="kbd">Promise</code> (.then/.catch/.finally, resolve/reject), <code class="kbd">requestAnimationFrame</code>. Each statement runs as a "frame" pushed onto the call stack so you can see it tick.
+      <br />
+      Editor: <code class="kbd">Tab</code> / <code class="kbd">Shift+Tab</code> indent, <code class="kbd">Enter</code> auto-indents, <code class="kbd">⌘/Ctrl + Enter</code> runs the code. Your edits are auto-saved in this browser.
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Runtime</h2>
+    <div class="runtime">
+      <div class="zone zone-stack">
+        <div class="title">Call Stack <span class="badge" id="stackCount">0</span></div>
+        <div class="items stack-items" id="stack"></div>
+      </div>
+      <div class="zone zone-webapi">
+        <div class="title">Web APIs <span class="badge" id="webapiCount">0</span></div>
+        <div class="items" id="webapi"></div>
+      </div>
+      <div class="zone zone-micro">
+        <div class="title">Microtask Queue <span class="badge" id="microCount">0</span></div>
+        <div class="items" id="micro"></div>
+      </div>
+      <div class="zone zone-macro">
+        <div class="title">Macrotask Queue <span class="badge" id="macroCount">0</span></div>
+        <div class="items" id="macro"></div>
+      </div>
+    </div>
+    <div class="loop-controls">
+      <div class="loop-mode" role="radiogroup" aria-label="Event loop mode">
+        <span class="heading">Event loop:</span>
+        <label><input type="radio" name="loopMode" value="auto" checked /> Auto</label>
+        <label><input type="radio" name="loopMode" value="manual" /> Manual</label>
+        <span class="loop-status" id="loopStatus">running automatically</span>
+      </div>
+      <button id="stepBtn" disabled title="Process the next microtask or macrotask">Step ▶</button>
+    </div>
+    <h2 style="margin-top:14px">Console</h2>
+    <div class="console" id="console"></div>
+  </section>
+</main>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
