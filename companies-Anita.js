@@ -1,13 +1,4 @@
-const users = [
-    { id: 1, name: "tony", surname: "stark", age: 45, cool: true },
-    { id: 2, name: "steve", surname: "strange", age: 40, cool: true },
-    { id: 3, name: "bruce", surname: "banner", age: 35, cool: false },
-    { id: 4, name: "steve", surname: "rogers", age: 73, cool: false },
-    { id: 5, name: "sia", surname: "yung", age: 33, cool: true },
-    { id: 6, name: "mystic", surname: "man", age: 30, cool: false },
-  ];
-  
-  const companies = [
+const companies = [
     { id: 1, company: "Google", category: "Software", start: 1994, end: 2004 , isActive: true},
     { id: 2, company: "Synopsys", category: "Hardware", start: 2004, end: 2020 , isActive: true},
     { id: 3, company: "Cisco", category: "Hardware", start: 2011, end: 2019 , isActive: true},
@@ -34,5 +25,3 @@ const Newcompanies = companies.map(
     }
 )
 console.log("Newcompanies>>>>>>>>", Newcompanies);
-
-
