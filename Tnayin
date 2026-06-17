@@ -1,0 +1,126 @@
+const users = [
+  { id: 1, name: "Tony",    surname: "Stark",    age: 48, cool: true  },
+  { id: 2, name: "Steve",   surname: "Rogers",   age: 95, cool: true  },
+  { id: 3, name: "Bruce",   surname: "Banner",   age: 49, cool: false },
+  { id: 4, name: "Natasha", surname: "Romanoff", age: 36, cool: true  },
+  { id: 5, name: "Clint",   surname: "Barton",   age: 47, cool: false },
+  { id: 6, name: "Peter",   surname: "Parker",   age: 22, cool: true  },
+];
+
+const companies = [
+  { company: "Apple",   category: "Hardware",  start: 1976, end: 2014 },
+  { company: "Google",  category: "Software",  start: 1998, end: 2023 },
+  { company: "Tesla",   category: "Hardware",  start: 2003, end: 2023 },
+  { company: "Netflix", category: "Software",  start: 1997, end: 2023 },
+  { company: "SpaceX",  category: "Aerospace", start: 2002, end: 2023 },
+];
+
+
+
+
+// 1. Ամբողջական անունների ձևաչափում
+// Փոխակերպիր յուրաքանչյուր օգտատիրոջ մեծատառով գրված ամբողջական անվան տող։ Օրինակ՝ "Tony Stark"։
+const fullNames = users.map(u => `${u.name} ${u.surname}`);
+console.log(fullNames);
+
+
+
+
+// 2. Միայն «cool» օգտատերերը
+// Վերադարձրու միայն այն օգտատերերին, որոնց cool դաշտը true է։
+const coolUsers = users.filter(u => u.cool);
+console.log(coolUsers);
+
+
+
+
+// 3. Օգտատիրոջ որոնում ըստ ID-ի
+// Գտիր այն օգտատիրոջը, որի id-ն հավասար է Input data.
+const searchId = 3;
+const user = users.find(u => u.id === searchId);
+console.log(user);
+
+
+
+
+// 4. Ընկերության գոյության տարիները
+// Ավելացրու years հատկություն յուրաքանչյուր ընկերության մոտ, որը հավասար է end - start-ի։
+const withYears = companies.map(c => ({ ...c, years: c.end - c.start }));
+console.log(withYears);
+
+
+
+
+
+// 5. Միայն Hardware ընկերությունները
+// Վերադարձրու միայն այն ընկերությունները, որոնց category-ն "Hardware" է։
+const hardware = companies.filter(c => c.category === "Hardware");
+console.log(hardware);
+
+
+
+
+// 6. Հեռացրու վերջին ընկերությունը և պահպանիր այն
+// Հեռացրու companies զանգվածի վերջին տարրը pop()-ով, պահպանիր այն փոփոխականում,
+// ապա արտածիր հեռացված ընկերության անունը և մնացած ընկերությունների քանակը։
+const removed = companies.pop();
+console.log(removed.company);
+console.log(companies.length);
+
+
+
+
+
+// 7. Ավելացրու 2 օգտատեր, ապա ֆիլտրիր
+// Ավելացրու 2 օգտատեր, ապա վերադարձրու բոլոր cool: false օգտատերերի ամբողջական անունները։
+users.push(
+  { id: 7, name: "Natasha", surname: "Romanoff", age: 36, cool: false },
+  { id: 8, name: "Thor",    surname: "Odinson",  age: 1500, cool: true }
+);
+const notCoolNames = users
+  .filter(u => !u.cool)
+  .map(u => `${u.name} ${u.surname}`);
+console.log(notCoolNames);
+
+
+
+
+// 8. «Cool» օգտատերերի տարիքային կարգավիճակ
+// Ֆիլտրիր cool օգտատերերին, ապա map-ով ստեղծիր օբյեկտ fullName և status դաշտերով։
+// status՝ "երիտասարդ" եթե տարիքը 40-ից փոքր է, հակառակ դեպքում՝ "փորձառու"։
+const result = users
+  .filter(u => u.cool)
+  .map(u => ({
+    fullName: `${u.name} ${u.surname}`,
+    status: u.age < 40 ? "երիտասարդ" : "փորձառու"
+  }));
+console.log(result);
+
+
+
+
+
+// 9. Դինամիկ ցուցակ — ամբողջական խնդիր
+// 9.1. users-ին ավելացրու Wanda Maximoff-ին
+// 9.2. companies-ից հեռացրու վերջին ընկերությունը
+// 9.3. Ֆիլտրիր cool օգտատերերին, ովքեր 35-ից փոքր են
+// 9.4. map-ով ստեղծիր "Անուն — [ընկերությունների_քանակ] ընկերություն կա" տող
+users.push({ id: 9, name: "Wanda", surname: "Maximoff", age: 30, cool: true });
+companies.pop();
+const dynamic = users
+  .filter(u => u.cool && u.age < 35)
+  .map(u => `${u.name} ${u.surname} — ${companies.length} ընկերություն կա`);
+console.log(dynamic);
+
+
+
+
+
+// 10. Տարիքային վարկանիշ՝ հաշվարկված միավորով
+// map-ով ավելացրու score դաշտ՝ cool ? 100 - age : 50 - age
+// sort-ով դասավորիր նվազող կարգով, map-ով ստեղծիր "#N — Անուն Ազգանուն (score: X)" տողեր։
+const ranked = users
+  .map(u => ({ ...u, score: u.cool ? 100 - u.age : 50 - u.age }))
+  .sort((a, b) => b.score - a.score)
+  .map((u, i) => `#${i + 1} — ${u.name} ${u.surname} (score: ${u.score})`);
+console.log(ranked);
