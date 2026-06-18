@@ -108,3 +108,32 @@ let someres = companies.filter((comp) => comp.isActive === true);
 
 
 console.log("someres", someres);
+
+
+
+const testObject = {
+    name: "John",
+    surname: "Smith",
+    age: 30,
+    city: "New York",
+    isMarried: true,
+    hasChildren: false,
+    address: {
+        street: "123 Main St",
+        city: "New York",
+        state: "NY",
+        zip: "10001"
+    },
+    getFullName: function() {
+        return `${this.name} ${this.surname}`;
+    },
+    printCurrentContext: function() {
+        console.log(this);
+    }
+}
+
+testObject.printCurrentContext();
+console.log(this);
+
+
+console.log(testObject.getFullName());
